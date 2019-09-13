@@ -36,9 +36,11 @@ CPPFLAGS="-D__ANDROID_API__=${API} ${CPPFLAGS}"
 CPPFLAGS="-isysroot ${SYSROOT} ${CPPFLAGS}"
 CPPFLAGS="-isystem ${SYSROOT}/usr/include/${TARGET} ${CPPFLAGS}"
 CXXFLAGS="${CFLAGS}"
+ANDROIDLDSYSROOT="${ANDROIDNDK}/platforms/android-${API}/arch-${ARCH}"
 LDFLAGS=""
-LDFLAGS="--sysroot=${ANDROIDNDK}/platforms/android-${API}/arch-${ARCH} ${LDFLAGS}"
+LDFLAGS="--sysroot=${ANDROIDLDSYSROOT} ${LDFLAGS}"
 PATH="$(pwd)/android-toolchain/bin:${PATH}"
+export ANDROIDLDSYSROOT
 export ANDROIDSYSROOT="${SYSROOT}"
 export AR
 export AS
