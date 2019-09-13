@@ -1,23 +1,35 @@
 #!/bin/sh
 set -x
-if test -z "${API}"; then API="19"; fi
-if test -z "${ARCH}"; then ARCH="arm"; fi
+if test -z "${ABI}"; then ABI="armeabi-v7a"; fi
+if test "${ABI}" = "armeabi-v7a"; then
+    if test -z "${API}"; then API="19"; fi
+    ARCH="arm"
+    FPU="vfpv4"
+    MARCH="armv7-a"
+    TARGET="arm-linux-androideabi"
+elif test "${ABI}" = "arm64-v8a"; then
+    if test -z "${API}"; then API="21"; fi
+    ARCH="arm64"
+    FPU="neon"
+    MARCH="armv8-a"
+    TARGET="aarch64-linux-android"
+else
+    exit 1
+fi
 FLOATABI="softfp"
-if test -z "${FPU}"; then FPU="vfpv4"; fi
-if test -z "${MARCH}"; then MARCH="armv7-a"; fi
 if test -z "${ANDROIDHOME}"; then
     ANDROIDHOME="${HOME}/Library/Android"
 fi
 ANDROIDSDK="${ANDROIDHOME}/sdk"
 ANDROIDNDK="${ANDROIDSDK}/ndk-bundle"
 SYSROOT="${ANDROIDNDK}/sysroot"
-if ! test -d android-toolchain; then
+PREFIX="${TARGET}-${API}-toolchain"
+if ! test -d ${PREFIX}; then
     ${ANDROIDNDK}/build/tools/make_standalone_toolchain.py \
         --arch ${ARCH} \
         --api ${API} \
-        --install-dir=android-toolchain
+        --install-dir=${PREFIX}
 fi
-TARGET="${ARCH}-linux-androideabi"
 AR="${TARGET}-ar"
 AS="${TARGET}-clang"
 CC="${TARGET}-clang"
@@ -39,7 +51,8 @@ CXXFLAGS="${CFLAGS}"
 ANDROIDLDSYSROOT="${ANDROIDNDK}/platforms/android-${API}/arch-${ARCH}"
 LDFLAGS=""
 LDFLAGS="--sysroot=${ANDROIDLDSYSROOT} ${LDFLAGS}"
-PATH="$(pwd)/android-toolchain/bin:${PATH}"
+PATH="$(pwd)/${PREFIX}/bin:${PATH}"
+export ANDROIDABI="${ABI}"
 export ANDROIDLDSYSROOT
 export ANDROIDSYSROOT="${SYSROOT}"
 export AR
