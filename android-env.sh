@@ -39,6 +39,7 @@ CXXFLAGS="${CFLAGS}"
 LDFLAGS=""
 LDFLAGS="--sysroot=${ANDROIDNDK}/platforms/android-${API}/arch-${ARCH} ${LDFLAGS}"
 PATH="$(pwd)/android-toolchain/bin:${PATH}"
+export ANDROIDSYSROOT="${SYSROOT}"
 export AR
 export AS
 export CC
