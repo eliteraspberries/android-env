@@ -22,6 +22,7 @@ AR="${TARGET}-ar"
 AS="${TARGET}-clang"
 CC="${TARGET}-clang"
 CPP="${CC} -E"
+CXX="${TARGET}-clang++"
 LD="${TARGET}-ld"
 RANLIB="${TARGET}-ranlib"
 CFLAGS=""
@@ -34,6 +35,7 @@ CPPFLAGS=""
 CPPFLAGS="-D__ANDROID_API__=${API} ${CPPFLAGS}"
 CPPFLAGS="-isysroot ${SYSROOT} ${CPPFLAGS}"
 CPPFLAGS="-isystem ${SYSROOT}/usr/include/${TARGET} ${CPPFLAGS}"
+CXXFLAGS="${CFLAGS}"
 LDFLAGS=""
 LDFLAGS="--sysroot=${ANDROIDNDK}/platforms/android-${API}/arch-${ARCH} ${LDFLAGS}"
 PATH="$(pwd)/android-toolchain/bin:${PATH}"
@@ -41,10 +43,12 @@ export AR
 export AS
 export CC
 export CPP
+export CXX
 export LD
 export RANLIB
 export CFLAGS
 export CPPFLAGS
+export CXXFLAGS
 export LDFLAGS
 export PATH
 exec $@
