@@ -1,4 +1,5 @@
 #!/bin/sh
+set -e
 set -x
 if test -z "${ABI}"; then ABI="armeabi-v7a"; fi
 if test "${ABI}" = "armeabi-v7a"; then
