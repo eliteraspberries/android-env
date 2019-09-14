@@ -40,6 +40,7 @@ if ! test -d ${PREFIX}; then
         --api ${API} \
         --install-dir=${PREFIX}
 fi
+PREFIX="$(cd ${PREFIX} && pwd)"
 AR="${TARGET}-ar"
 AS="${TARGET}-clang"
 CC="${TARGET}-clang"
@@ -61,7 +62,7 @@ CXXFLAGS="${CFLAGS}"
 ANDROIDLDSYSROOT="${ANDROIDNDK}/platforms/android-${API}/arch-${ARCH}"
 LDFLAGS=""
 LDFLAGS="--sysroot=${ANDROIDLDSYSROOT} ${LDFLAGS}"
-PATH="$(pwd)/${PREFIX}/bin:${PATH}"
+PATH="${PREFIX}/bin:${PATH}"
 export ANDROIDABI="${ABI}"
 export ANDROIDLDSYSROOT
 export ANDROIDSYSROOT="${SYSROOT}"
