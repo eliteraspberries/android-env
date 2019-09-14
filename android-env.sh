@@ -19,8 +19,11 @@ else
 fi
 FLOATABI="softfp"
 if test -z "${ANDROIDHOME}"; then
-    ANDROIDHOME="${HOME}/Library/Android"
+    if test -n "${ANDROID_HOME}"; then
+        ANDROIDHOME="${ANDROID_HOME}"
+    fi
 fi
+if ! test -d "${ANDROIDHOME}"; then exit 1; fi
 ANDROIDSDK="${ANDROIDHOME}/sdk"
 ANDROIDNDK="${ANDROIDSDK}/ndk-bundle"
 SYSROOT="${ANDROIDNDK}/sysroot"
