@@ -9,6 +9,7 @@ android:
 env:
   global:
     - ANDROIDHOME=${ANDROID_HOME}
+    - ANDROIDSDK=${ANDROID_HOME}
   matrix:
     - ABI=armeabi-v7a
     - ABI=arm64-v8a

@@ -24,8 +24,14 @@ if test -z "${ANDROIDHOME}"; then
     fi
 fi
 if ! test -d "${ANDROIDHOME}"; then exit 1; fi
-ANDROIDSDK="${ANDROIDHOME}/sdk"
-ANDROIDNDK="${ANDROIDSDK}/ndk-bundle"
+if test -z "${ANDROIDSDK}"; then
+    ANDROIDSDK="${ANDROIDHOME}/sdk"
+fi
+if ! test -d "${ANDROIDSDK}"; then exit 1; fi
+if test -z "${ANDROIDNDK}"; then
+    ANDROIDNDK="${ANDROIDSDK}/ndk-bundle"
+fi
+if ! test -d "${ANDROIDNDK}"; then exit 1; fi
 SYSROOT="${ANDROIDNDK}/sysroot"
 PREFIX="${TARGET}-${API}-toolchain"
 if ! test -d ${PREFIX}; then
