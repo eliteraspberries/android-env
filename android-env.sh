@@ -1,15 +1,15 @@
 #!/bin/sh
 set -e
 set -x
-if test -z "${ABI}"; then ABI="armeabi-v7a"; fi
+ABI="${ABI:=armeabi-v7a}"
 if test "${ABI}" = "armeabi-v7a"; then
-    if test -z "${API}"; then API="19"; fi
+    API="${API:=19}"
     ARCH="arm"
     FPU="vfpv4"
     MARCH="armv7-a"
     TRIPLET="arm-linux-androideabi"
 elif test "${ABI}" = "arm64-v8a"; then
-    if test -z "${API}"; then API="21"; fi
+    API="${API:=21}"
     ARCH="arm64"
     FPU="neon"
     MARCH="armv8-a"
@@ -18,20 +18,12 @@ else
     exit 1
 fi
 FLOATABI="softfp"
-if test -z "${ANDROIDHOME}"; then
-    if test -n "${ANDROID_HOME}"; then
-        ANDROIDHOME="${ANDROID_HOME}"
-    fi
-fi
-if ! test -d "${ANDROIDHOME}"; then exit 1; fi
-if test -z "${ANDROIDSDK}"; then
-    ANDROIDSDK="${ANDROIDHOME}/sdk"
-fi
-if ! test -d "${ANDROIDSDK}"; then exit 1; fi
-if test -z "${ANDROIDNDK}"; then
-    ANDROIDNDK="${ANDROIDSDK}/ndk-bundle"
-fi
-if ! test -d "${ANDROIDNDK}"; then exit 1; fi
+ANDROIDHOME="${ANDROIDHOME:=${ANDROID_HOME}}"
+test -d "${ANDROIDHOME}"
+ANDROIDSDK="${ANDROIDSDK:=${ANDROIDHOME}/sdk}"
+test -d "${ANDROIDSDK}"
+ANDROIDNDK="${ANDROIDNDK:=${ANDROIDSDK}/ndk-bundle}"
+test -d "${ANDROIDNDK}"
 CFLAGS=""
 CPPFLAGS=""
 LDFLAGS=""
